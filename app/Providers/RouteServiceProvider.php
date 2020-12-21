@@ -47,6 +47,8 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
         });
+
+        Route::aliasMiddleware('auto_db_transaction', \App\Http\Middleware\AutoDatabaseTransaction::class);
     }
 
     /**
