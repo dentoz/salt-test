@@ -24,20 +24,19 @@
       </ul>
     @endif
 
-    <form method="post" action="/prepaid/process">
+    <form method="post" action="/products/process">
         @csrf <!-- {{ csrf_field() }} -->
         <div>
-            <label>Mobile Number</label>
-            <input type="text" name="phone" value="{{old('phone')}}"/>
+            <label>Product</label>
+            <input type="textarea" name="name" value="{{old('name')}}"/>
+        </div>
+        <div>
+            <label>Shipping Address</label>
+            <input type="textarea" name="address" value="{{old('address')}}"/>
         </div>
         <div>
             <label>Value</label>
-            <select name="value">
-                <option> - </option>
-                @foreach ($values as $value)
-                    <option value="{{ $value }}">{{ number_format($value, 0, ",", ".") }}</option>
-                @endforeach
-            </select>
+            <input type="text" name="price" value="{{old('price')}}"/>
         </div>
         <div>
             <button type="submit">submit</button>

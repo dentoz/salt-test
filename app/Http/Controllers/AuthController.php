@@ -31,7 +31,7 @@ class AuthController extends Controller
         $input = $request->validated();
 
         if (Auth::attempt($input)) {
-            return redirect()->route('home');
+            return redirect('/home');
         } else {
             $errors = new MessageBag();
             $errors->add('login_error', 'Incorrect password');

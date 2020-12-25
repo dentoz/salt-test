@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PrepaidController;
+use App\Http\Controllers\ProductsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,9 +26,13 @@ Route::post('register', [AuthController::class, 'register'])->middleware('auto_d
 Route::group(['middleware' => 'auth'], function () {
 
     Route::get('home', [PrepaidController::class, 'index'])->name('home');
-    Route::post('prepaid/process', [PrepaidController::class, 'process'])->name('home')->middleware('auto_db_transaction');
+    Route::get('prepaid', [PrepaidController::class, 'index'])->name('prepaid');
+    Route::post('prepaid/process', [PrepaidController::class, 'process'])->middleware('auto_db_transaction');
     Route::get('prepaid/result/{prepaid}', [PrepaidController::class, 'result'])->name('prepaidResult');
     Route::get('prepaid/pay-order/{prepaid}', [PrepaidController::class, 'pay'])->name('payOrder');
+    Route::get('products', [ProductsController::class, 'index'])->name('products');
+    Route::post('products/process', [ProductsController::class, 'process'])->middleware('auto_db_transaction');
+    Route::get('products/result/{products}', [ProductsController::class, 'result'])->name('productsResult');
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 });

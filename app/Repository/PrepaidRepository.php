@@ -8,12 +8,6 @@ use Illuminate\Support\Str;
 
 class PrepaidRepository
 {
-    public function getUnpaidOrder(User $user)
-    {
-        $prepaid = Prepaid::where('user_id', $user->id)->first();
-        return $prepaid->order->where('is_paid', 0)->count();
-    }
-
     public function topUp($input, $userId)
     {
         $model = new Prepaid();

@@ -19,6 +19,7 @@ class Products extends Migration
             $table->string('name', 150);
             $table->string('address', 150);
             $table->string('price');
+            $table->string('shipping_code', 8);
             $table->softDeletes('deleted_at', 0);
         });
     }
