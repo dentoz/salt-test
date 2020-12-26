@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\PrepaidController;
 use App\Http\Controllers\ProductsController;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +34,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('products', [ProductsController::class, 'index'])->name('products');
     Route::post('products/process', [ProductsController::class, 'process'])->middleware('auto_db_transaction');
     Route::get('products/result/{products}', [ProductsController::class, 'result'])->name('productsResult');
+    Route::get('order/pay-order/{order_id}', [OrdersController::class, 'index'])->name('order');
+    Route::post('order/autocomplete', [OrdersController::class, 'autocomplete']);
+    Route::post('order/get-order', [OrdersController::class, 'getOrder']);
+    Route::post('order/process/{orders}', [OrdersController::class, 'process']);
+    Route::get('order', [OrdersController::class, 'history'])->name('history');
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 });

@@ -16,7 +16,16 @@ class Products extends Model
 
     public $incrementing = false;
 
+    public function getClass() {
+        return Products::class;
+    }
+
     public function order() {
         return $this->morphOne(Orders::class, 'order');
+    }
+
+    public function findWhere($productId, User $user)
+    {
+        return $this->where(['product_id' => $productId, 'user_id' => $user->id]);
     }
 }

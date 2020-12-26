@@ -16,7 +16,16 @@ class Prepaid extends Model
 
     public $incrementing = false;
 
+    public function getClass() {
+        return Prepaid::class;
+    }
+
     public function order() {
         return $this->morphOne(Orders::class, 'order');
+    }
+
+    public function findWhere($prepaidId, User $user)
+    {
+        return $this->where(['prepaid_id' => $prepaidId, 'user_id' => $user->id]);
     }
 }

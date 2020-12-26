@@ -33,4 +33,32 @@ class OrderRepository
         $orders->order_type = $class;
         $orders->saveOrFail();
     }
+
+    public function getOrder($orderId, User $user)
+    {
+        $order = Orders::where('order_id', $orderId)->first();
+        $variant = new $order->order_type;
+        return $variant->findWhere($orderId, $user)->first();
+    }
+
+    public function getOrderById($orderId)
+    {
+        $orders = Orders::where('order_id', 'like', '%' . $orderId .'%')->get();
+        $result = [];
+        foreach ($orders as $order) {
+            $result[] = [
+                'label' => $order->order_id,
+                'value' => $order->order_id
+            ];
+        }
+
+        return $result;
+    }
+
+    public function pay(Orders $orders)
+    {
+        $orders->is_paid = true;
+        $orders->saveOrFail();
+        return $orders;
+    }
 }
