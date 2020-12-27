@@ -55,10 +55,41 @@ class OrderRepository
         return $result;
     }
 
-    public function pay(Orders $orders)
+    public function pay($orderId, User $user)
     {
-        $orders->is_paid = true;
-        $orders->saveOrFail();
-        return $orders;
+        $orders = Orders::find($orderId);
+        $variant = new $orders->order_type;
+
+        if ( $variant->findWhere($orderId, $user)->exists() ) {
+            $orders->is_paid = true;
+            $orders->saveOrFail();
+            return $orders;
+        } else {
+            return false;
+        }
+    }
+
+    private function orderQuery($orderId)
+    {
+        if ( !empty( $orderId ) ) {
+            return Orders::where('order_id', 'like', '%' . $orderId . '%')->orderBy('order_id');
+        } else {
+            return Orders::orderBy('order_id');
+        }
+    }
+
+    public function getPaginatedOrders($page, $perRow, $orderId)
+    {
+        return $this->orderQuery($orderId)->skip($page * $perRow)->take($perRow)->get();
+    }
+
+    public function countPaginatedOrders($orderId)
+    {
+        return $this->orderQuery($orderId)->count();
+    }
+
+    public function getUnpaidOrderByOrder()
+    {
+        return Orders::where('is_paid', 0)->count();
     }
 }

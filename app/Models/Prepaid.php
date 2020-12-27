@@ -28,4 +28,9 @@ class Prepaid extends Model
     {
         return $this->where(['prepaid_id' => $prepaidId, 'user_id' => $user->id]);
     }
+
+    public function getValueAttribute($value)
+    {
+        return $value + (($value * 5) / 100);
+    }
 }

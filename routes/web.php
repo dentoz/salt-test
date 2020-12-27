@@ -37,8 +37,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('order/pay-order/{order_id}', [OrdersController::class, 'index'])->name('order');
     Route::post('order/autocomplete', [OrdersController::class, 'autocomplete']);
     Route::post('order/get-order', [OrdersController::class, 'getOrder']);
-    Route::post('order/process/{orders}', [OrdersController::class, 'process']);
-    Route::get('order', [OrdersController::class, 'history'])->name('history');
+    Route::post('order/process', [OrdersController::class, 'process'])->middleware('auto_db_transaction');
+    Route::get('order/history', [OrdersController::class, 'history'])->name('history');
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 });

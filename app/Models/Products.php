@@ -28,4 +28,9 @@ class Products extends Model
     {
         return $this->where(['product_id' => $productId, 'user_id' => $user->id]);
     }
+
+    public function getPriceAttribute($value)
+    {
+        return $value + 10000;
+    }
 }

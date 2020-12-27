@@ -32,9 +32,27 @@ class OrdersController extends Controller
         return $order;
     }
 
-    public function process(Orders $orders, OrderRepository $orderRepository)
+    public function process(Request $request, OrderRepository $orderRepository)
     {
-        $orderRepository->pay($orders);
+        $me = auth()->user();
+        $orderRepository->pay($request->get('order_id'), $me);
         return redirect()->route('history');
+    }
+
+    public function history(Request $request, OrderRepository $orderRepository)
+    {
+        $me = auth()->user();
+        $counter = $orderRepository->getUnpaidOrderByOrder();
+
+        $page = $request->get('page') ?? 0;
+        $perRow = $request->get('perRow') ?? 20;
+        $orders = $orderRepository->getPaginatedOrders($page, $perRow, $request->get('order_id'));
+        $countOrders = $orderRepository->countPaginatedOrders($request->get('order_id'));
+        return view('history', [
+            'me' => $me,
+            'counter' => $counter,
+            'orders' => $orders,
+            'countOrders' => $countOrders
+        ]);
     }
 }
