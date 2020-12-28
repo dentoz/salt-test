@@ -72,7 +72,7 @@ class OrderRepository
     private function orderQuery($orderId)
     {
         if ( !empty( $orderId ) ) {
-            return Orders::where('order_id', 'like', '%' . $orderId . '%')->orderBy('order_id');
+            return Orders::withTrashed()->where('order_id', 'like', '%' . $orderId . '%')->orderBy('order_id');
         } else {
             return Orders::orderBy('order_id');
         }

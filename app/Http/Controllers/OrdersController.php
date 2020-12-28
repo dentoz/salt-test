@@ -48,6 +48,7 @@ class OrdersController extends Controller
         $perRow = $request->get('perRow') ?? 20;
         $orders = $orderRepository->getPaginatedOrders($page, $perRow, $request->get('order_id'));
         $countOrders = $orderRepository->countPaginatedOrders($request->get('order_id'));
+
         return view('history', [
             'me' => $me,
             'counter' => $counter,

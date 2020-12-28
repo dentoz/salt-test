@@ -12,6 +12,16 @@
 
 @section('content')
     <div>
+        &nbsp;
+        <form method="get">
+            <div>
+                <input type="text" name="order_id"/>
+            </div>
+            <div>
+                <button type="submit">search</button>
+            </div>
+        </form>
+        &nbsp;
         @foreach ($orders as $order)
             <div>
                 {{ $order->prepaid ? $order->prepaid->created_at : $order->product->created_at }}
@@ -32,5 +42,8 @@
                 @endif
             </div>
         @endforeach
+        @for ($i = 0; $i < ceil($countOrders / 20); $i++)
+            <a href="/order/history?page={{$i}}&perRow=20">{{$i+1}}</a>
+        @endfor
     </div>
 @endsection
